@@ -1,5 +1,4 @@
 import axios from "axios";
-import history from "./../history";
 import store from "./../store";
 
 const LocalAPI = axios.create({
@@ -12,8 +11,12 @@ LocalAPI.interceptors.request.use((request) => {
     if (token) {
         request.headers["Authorization"] = `Bearer ${token}`;
     }
-
     return request;
 });
+
+LocalAPI.interceptors.response.use((response) => {
+    console.log(response.error)
+    return response;
+})
 
 export default LocalAPI;

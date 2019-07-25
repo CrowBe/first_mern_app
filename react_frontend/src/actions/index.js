@@ -1,4 +1,4 @@
-import { JOBS_LIST } from "./types";
+import { JOBS_LIST, JOB_ITEM } from "./types";
 import LocalAPI from "./../apis/local";
 import history from "./../history";
 
@@ -28,7 +28,7 @@ export const fetchAuthTokenLogin = (username, password, key) => {
     return async (dispatch, getState) => {
         const response = await LocalAPI.post(`/auth/login`, { username, password})
         const { data } = response
-        if (data !== "Incorrect key") {
+        if (data !== undefined) {
             dispatch(setAuthToken(data.token));
             history.push("/jobs");
         } else {
@@ -43,6 +43,13 @@ export const setJobs = (jobs) => {
         type: JOBS_LIST,
         payload: jobs
     };
+}
+
+export const setCurrentJob = (job) => {
+    return {
+        type: JOB_ITEM,
+        payload: job
+    };
 } 
 
 export const fetchJobs = () => {
@@ -52,9 +59,17 @@ export const fetchJobs = () => {
     }
 }
 
-export const createJobs = (...props) => {
+export const fetchJob = (id) => {
+    console.log(id)
     return async (dispatch, getState) => {
-        const response = await LocalAPI.post(`/jobs`, { ...props});
-        dispatch(setJobs(response.data));
+        const response = await LocalAPI.get("/jobs/show", {params: { id }});
+        dispatch(setCurrentJob(response.data));
+    }
+}
+
+export const createJob = (customerName) => {
+    return async (dispatch, getState) => {
+        const response = await LocalAPI.post(`/jobs/new`, { customerName });
+        dispatch(setCurrentJob(response.data));
     } 
 }

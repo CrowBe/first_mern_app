@@ -1,10 +1,14 @@
 const { Schema } = require("mongoose");
-const itemSchema = require("./")
+const itemSchema = require("./item_schema");
 
 const JobSchema = new Schema({
+    customerName: {
+        type: String,
+        required: true
+    },
     status: {
         type: String,
-        default: 'Enquiry'
+        default: 'enquiry'
     },
     enquiryForm: String,
     enquiryFormSent: {

@@ -14,6 +14,7 @@ async function upload(req, res) {
     console.log("file wasn't deleted")
     console.error(err)
   }
+  // TODO: save the returned url to the database under the correct job field
   res.send(getPublicUrl(bucketName, newFilename))
 }
 

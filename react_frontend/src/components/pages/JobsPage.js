@@ -1,35 +1,48 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchJobs } from "./../../actions";
+import JobCard from "./../pageElements/JobCard";
 
 class JobsPage extends Component {
-    componentDidMount() {
+    componentWillMount() {
         this.props.fetchJobs();
     }
 
     render() {
-        const { jobs } = this.props;
-        
-        return (
-            <>
-                <h2>Enquiry Stage</h2>
-                <h2>Site Visit Stage</h2>
-                <h2>Quoting Stage</h2>
-                <h2>Quoted Stage</h2>
-                <h2>Inital Documentation Stage</h2>
-                <h2>Walkthrough Stage</h2>
-                <h2>Finalise Documentation Stage</h2>
-                <h2>Ready Stage</h2>
-                <h2>In Progress Stage</h2>
-                <h2>Handover Stage</h2>
-            </>
-        );
+        const { jobs, token } = this.props;
+        const jobsByStatus = {
+            "enquiry": [], "siteVisit": [], "quoting": [], "quoted": [], 
+            "initialDocs": [], "walkthrough": [], "finaliseDocs": [], 
+            "ready": [], "inProgress": [], "handover": []
+        }
+        const statusList = Object.keys(jobsByStatus)
+        jobs.map((item, index) => {
+            jobsByStatus[item.status].push(item);
+            return jobsByStatus;
+        })
+        let i = 0;
+        if (jobs) {
+            return (
+                <>
+                    { token && <h4>User Logged In!</h4>}
+                    <h1>Job Status Index</h1>
+                    {statusList.map((item, index) => {
+                        return (
+                        <JobCard key={i+=1} jobs={jobsByStatus[item]} statusName={item} />
+                        )
+                    })}
+                </>
+            );
+        } else {
+            return(<p>Loading</p>)
+        }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        fetchJobs: state.fetchJobs
+        jobs: state.jobs,
+        token: state.auth.token
     }
 }
 

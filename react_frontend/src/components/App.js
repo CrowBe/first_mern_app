@@ -4,8 +4,10 @@ import "./../styles/App.css";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import NotFoundPage from "./pages/NotFoundPage";
 import JobsPage from "./pages/JobsPage";
+import NewJobPage from "./pages/NewJobPage";
+import ShowJobPage from "./pages/ShowJobPage"
+import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./PrivateRoute";
 import history from "./../history";
 import { connect } from "react-redux";
@@ -13,12 +15,10 @@ import { connect } from "react-redux";
 class App extends Component {
 
     render() {
-        const { token } = this.props;
 
         return (
             <Router history={history}>
                 <div>
-                    { token && <h4>User Logged In!</h4>}
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route 
@@ -31,7 +31,9 @@ class App extends Component {
                             path="/register" 
                             component={RegisterPage}
                         />
-                        <PrivateRoute exact path="/index" component={JobsPage} />
+                        <PrivateRoute exact path="/jobs" component={JobsPage} />
+                        <PrivateRoute exact path="/jobs/new" component={NewJobPage} />
+                        <PrivateRoute exact path="/jobs/show/:id" component={ShowJobPage} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </div>
