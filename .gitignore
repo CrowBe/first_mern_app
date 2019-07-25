@@ -1,6 +1,5 @@
-/express_backend/.env
-/express_backend/gsck.json
-/express_backend/node_modules
-/react_frontend/.env
-/react_frontend/node_modules
-
+src/express_backend/.env
+src/express_backend/gsck.json
+src/express_backend/node_modules
+src/react_frontend/.env
+src/react_frontend/node_modules
